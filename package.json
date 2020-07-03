@@ -1,0 +1,16 @@
+{
+  "name": "henlofren",
+  "version": "1.0.0",
+  "description": "Pet project",
+  "main": "index.js",
+  "dependencies": {
+    "cypress": "^4.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:run": "cypress run -C cypress.json"
+  },
+  "author": "",
+  "license": "WTFPL"
+}
