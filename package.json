@@ -9,7 +9,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cy:run": "cypress run -C cypress.json"
+    "cy:run": "cypress run -C cypress.json",
+    "cy:open": "cypress open"
   },
   "author": "",
   "license": "WTFPL"
