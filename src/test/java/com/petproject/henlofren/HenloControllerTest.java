@@ -26,4 +26,11 @@ public class HenloControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Henlo fren")));
     }
+
+    @Test
+    public void shoulReturnExistingAnimalsWhenRequested() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/animals").accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("dog")));
+    }
 }
