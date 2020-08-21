@@ -6,8 +6,8 @@ context('Pet project', () => {
             cy.visit('/animals')
             cy.get('[data-test="animalList"] li').first().should('have.value', 'dog')
         });
-        it('should display existing animal when requested by name', function () {
-            cy.visit('/animals/dog')
+        it('should display existing animal when requested by id', function () {
+            cy.visit('/animals/s0m3D0g1d')
             cy.contains('dog')
         });
     });
