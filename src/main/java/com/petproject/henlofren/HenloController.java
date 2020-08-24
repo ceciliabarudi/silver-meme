@@ -4,8 +4,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.Collectors;
+
 @RestController
 public class HenloController {
+
+    private final AnimalService animalService = new AnimalService();
 
     @RequestMapping("/")
     public String index() {
@@ -14,7 +18,9 @@ public class HenloController {
 
     @GetMapping("/animals")
     public String all() {
-        return "dog";
+        return animalService.findAllAnimals().stream()
+                .map(Animal::getName)
+                .collect(Collectors.joining(" "));
     }
 
 
