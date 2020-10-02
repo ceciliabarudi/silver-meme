@@ -34,4 +34,11 @@ public class Animal {
     }
 
 
+    public void setId(long id) {
+        //transform long to uuid?
+    }
+
+    public Object getId() {
+        return null;
+    }
 }
