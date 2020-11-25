@@ -50,8 +50,6 @@ public class HenloController {
     public ResponseEntity<Object> updateAnimal(@RequestBody Animal animal, @PathVariable long id) {
         animalService.findAnimalById(id);
 
-        animal.setId(id);
-
         animalService.save(animal);
 
         return ResponseEntity.noContent().build();

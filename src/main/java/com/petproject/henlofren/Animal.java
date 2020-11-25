@@ -8,7 +8,7 @@ import java.util.UUID;
 public class Animal {
 
     @Id
-    private final UUID id = UUID.randomUUID();
+    private final UUID id;
     private String name;
 
     protected Animal() {}
