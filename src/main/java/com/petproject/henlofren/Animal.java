@@ -1,14 +1,16 @@
 package com.petproject.henlofren;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Entity
 public class Animal {
 
     @Id
-    private final UUID id;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
     private String name;
 
     protected Animal() {}
@@ -35,10 +37,10 @@ public class Animal {
 
 
     public void setId(long id) {
-        //transform long to uuid?
+        this.id = id;
     }
 
     public Object getId() {
-        return null;
+        return id;
     }
 }

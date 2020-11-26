@@ -1,9 +1,7 @@
 package com.petproject.henlofren;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -12,7 +10,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,14 +19,6 @@ public class HenloControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
-    @Mock
-    private AnimalService animalService;
-
-    @BeforeEach
-    void setUp() {
-        initMocks(this);
-    }
 
     @Test
     void shoulGetAHenloWhenPingingEndpoint() throws Exception {
