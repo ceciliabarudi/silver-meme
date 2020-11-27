@@ -30,7 +30,7 @@ public class HenloController {
     public String all() {
         return animalService.findAllAnimals().stream()
                 .map(Animal::getName)
-                .collect(Collectors.joining(" "));
+                .collect(Collectors.joining(", "));
     }
 
     @GetMapping("/animals/{id}")

@@ -7,4 +7,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @ResponseStatus(code = NOT_FOUND, reason = "Sory we no found dat animal")
 public class WhoDisAnimalException extends RuntimeException {
 
+    WhoDisAnimalException(Long id) {
+        super("Who dis. No know dat animal " + id);
+    }
 }
