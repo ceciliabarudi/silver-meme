@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,7 +30,12 @@ public class HenloController {
 
     @GetMapping("/animals")
     public String all() {
-        return animalService.findAllAnimals().stream()
+        List<Animal> animals = animalService.findAllAnimals();
+
+        if (animals.equals(Collections.emptyList())) {
+            return "sorry fren, no aminals here";
+        }
+        return animals.stream()
                 .map(Animal::getName)
                 .collect(Collectors.joining(", "));
     }

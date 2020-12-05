@@ -22,7 +22,7 @@ class AnimalServiceTest {
     }
 
     @Test
-    void shouldReturnAllAnimals() {
+    void shouldReturnAllExistingAnimals() {
         Animal dog = new Animal("Dog");
         Animal cat = new Animal("Cat");
         Animal duck = new Animal("Duck");

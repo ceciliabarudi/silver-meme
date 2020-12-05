@@ -10,6 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
@@ -29,7 +30,7 @@ public class HenloControllerTest {
     private AnimalService animalService;
 
     @Test
-    void shoulGetAHenloWhenPingingEndpoint() throws Exception {
+    void shouldGetAHenloWhenPingingEndpoint() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -38,7 +39,7 @@ public class HenloControllerTest {
     }
 
     @Test
-    void shoulReturnExistingAnimalsWhenRequested() throws Exception {
+    void shouldReturnAllExistingAnimalsWhenRequested() throws Exception {
         Animal dog = new Animal("Dog");
         Animal cat = new Animal("Cat");
         Animal duck = new Animal("Duck");
@@ -49,6 +50,17 @@ public class HenloControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsStringIgnoringCase("dog, cat, duck")));
+    }
+
+    @Test
+    void shouldSaySorryIfThereAreNoAnimalsToDisplay() throws Exception{
+        when(animalService.findAllAnimals()).thenReturn(Collections.emptyList());
+
+        mvc.perform(MockMvcRequestBuilders.get("/animals")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("sorry fren, no aminals here")));
     }
 
 }
