@@ -41,8 +41,14 @@ public class HenloController {
     }
 
     @GetMapping("/animals/{id}")
-    public Animal findAnimal(@PathVariable long id) throws WhoDisAnimalException {
-        return animalService.findAnimalById(id);
+    public String findAnimal(@PathVariable long id) {
+        Animal animal = animalService.findAnimalById(id);
+
+        if (animal != null) {
+            return animal.getName();
+        }
+
+        return "sorry, dat aminal no exist";
     }
 
     @PostMapping("/animals")

@@ -8,6 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,5 +35,20 @@ class AnimalServiceTest {
                 hasProperty("name", is("Duck"))
                 )
         );
+    }
+
+    @Test
+    void shouldThrowAWhoDisWhenAnimalIsNotFoundById() {
+        when(animalRepository.findById(2L)).thenReturn(java.util.Optional.empty());
+
+        assertThrows(WhoDisAnimalException.class, () -> service.findAnimalById(2));
+    }
+
+    @Test
+    void shouldReturnAnimalById() {
+        Animal cat = new Animal("Cat");
+        when(animalRepository.findById(2L)).thenReturn(java.util.Optional.of(cat));
+
+        assertThat(service.findAnimalById(2), is(cat));
     }
 }

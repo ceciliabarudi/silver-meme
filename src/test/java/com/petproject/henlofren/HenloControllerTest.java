@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = HenloController.class)
-public class HenloControllerTest {
+class HenloControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -63,4 +63,28 @@ public class HenloControllerTest {
                 .andExpect(content().string(equalTo("sorry fren, no aminals here")));
     }
 
+    @Test
+    void shouldSaySorryWhenNoAnimalRequestedById() throws Exception {
+        when(animalService.findAnimalById(7)).thenReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders.get("/animals/7")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("sorry, dat aminal no exist")));
+    }
+
+    @Test
+    void shouldReturnSpecificAnimalWhenRequestedById() throws Exception {
+        Animal cat = new Animal("Cat");
+        when(animalService.findAnimalById(2)).thenReturn(cat);
+
+        mvc.perform(MockMvcRequestBuilders.get("/animals/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsStringIgnoringCase("cat")));
+    }
+
+    // TODO: create custom error mapping cause default one is ugly
 }
