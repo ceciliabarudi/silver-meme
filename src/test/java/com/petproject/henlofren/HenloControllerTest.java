@@ -15,8 +15,10 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -84,6 +86,23 @@ class HenloControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsStringIgnoringCase("cat")));
+    }
+
+    @Test
+    void shouldAllowToCreateANewAnimal() throws Exception {
+        Animal savedNarwhal = new Animal("Narwhal");
+        savedNarwhal.setId(7L);
+        when(animalService.save(any())).thenReturn(savedNarwhal);
+        // any() porque el narwhal que se guarda y el que entra en la request
+        // nunca van a ser el mismo objeto en memoria
+
+        mvc.perform(MockMvcRequestBuilders.post("/animals")
+                .content("{ \"name\": \"Narwhal\"}")
+                .characterEncoding("UTF-8")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(redirectedUrl("http://localhost/animals"));
     }
 
     // TODO: create custom error mapping cause default one is ugly

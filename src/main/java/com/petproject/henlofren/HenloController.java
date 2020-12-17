@@ -53,10 +53,9 @@ public class HenloController {
 
     @PostMapping("/animals")
     public ResponseEntity<Object> createAnimal(@RequestBody Animal animal) {
-        Animal savedAnimal = animalService.save(animal);
+        animalService.save(animal);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(savedAnimal.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 
         return ResponseEntity.created(location).build();
     }

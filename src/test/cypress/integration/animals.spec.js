@@ -10,5 +10,14 @@ context('Pet project', () => {
             cy.visit('/animals/3')
             cy.contains('Platypus')
         });
+        it('should be able to create new animal', function () {
+            cy.visit('/animals')
+            cy.request('POST', '/animals', {name: 'Narwhal'})
+                .then((response) => {
+                    expect(response.status).to.eq(201)
+                    expect(response.body).to.have.property('name', 'Narwhal')
+                    expect(response.redirectedToUrl).to.eq('http://localhost:8082/animals')
+                })
+        });
     });
 })
