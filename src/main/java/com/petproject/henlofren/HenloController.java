@@ -1,6 +1,7 @@
 package com.petproject.henlofren;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,11 +54,13 @@ public class HenloController {
 
     @PostMapping("/animals")
     public ResponseEntity<Object> createAnimal(@RequestBody Animal animal) {
-        animalService.save(animal);
+        Animal savedAnimal = animalService.save(animal);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "http://localhost/animals");
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).headers(headers).body(savedAnimal.getName());
     }
 
     @PutMapping("/animals/{id}")
