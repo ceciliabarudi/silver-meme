@@ -51,4 +51,12 @@ class AnimalServiceTest {
 
         assertThat(service.findAnimalById(2), is(cat));
     }
+
+    @Test
+    void shouldSaveNewAnimal() {
+        Animal narwhal = new Animal("Narwhal");
+        when(animalRepository.save(narwhal)).thenReturn(narwhal);
+
+        assertThat(service.save(narwhal).getName(), is("Narwhal"));
+    }
 }

@@ -11,7 +11,4 @@ public interface AnimalRepository extends CrudRepository<Animal, Long> {
 
     @Override
     List<Animal> findAll();
-
-    @Override
-    Optional<Animal> findById(Long id);
 }

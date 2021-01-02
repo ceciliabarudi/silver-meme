@@ -23,7 +23,7 @@ public class AnimalService {
     }
 
     public Animal save(Animal animal) {
-        return animal;
+        return animalRepository.save(animal);
     }
 
     public void deleteAnimalById(long id) {
