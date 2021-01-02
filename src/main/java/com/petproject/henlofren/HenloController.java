@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
 @RestController
 public class HenloController {
 
+    public static final String LOCATION = "Location";
+    public static final String ANIMALS_LIST = "http://localhost/animals";
+    private final HttpHeaders headers = new HttpHeaders();
+
     @Autowired
     private AnimalService animalService;
 
@@ -50,8 +54,7 @@ public class HenloController {
             return ResponseEntity.ok().body(animal.getName());
         }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "http://localhost/animals");
+        headers.add(LOCATION, ANIMALS_LIST);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(headers).body("sorry, dat aminal no exist");
     }
@@ -61,16 +64,14 @@ public class HenloController {
         Animal savedAnimal = animalService.save(animal);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "http://localhost/animals");
+        headers.add(LOCATION, ANIMALS_LIST);
 
         return ResponseEntity.created(location).headers(headers).body(savedAnimal.getName());
     }
 
     @PutMapping("/animals/{id}")
     public ResponseEntity<Object> updateAnimal(@RequestBody Animal animal, @PathVariable long id) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "http://localhost/animals");
+        headers.add(LOCATION, ANIMALS_LIST);
 
         if (animalService.findAnimalById(id) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(headers).body("sorry, dat aminal no exist");
@@ -84,7 +85,9 @@ public class HenloController {
 
     @DeleteMapping("/animals/{id}")
     public void deleteAnimal(@PathVariable long id) {
-        animalService.deleteAnimalById(id);
+        if(animalService.findAnimalById(id) != null) {
+            animalService.deleteAnimalById(id);
+        }
     }
 
 }

@@ -1,8 +1,10 @@
 package com.petproject.henlofren;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,6 +12,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 class AnimalServiceTest {
@@ -58,5 +61,16 @@ class AnimalServiceTest {
         when(animalRepository.save(narwhal)).thenReturn(narwhal);
 
         assertThat(service.save(narwhal).getName(), is("Narwhal"));
+    }
+
+    @Test
+    void shouldDeleteAnimal() {
+        final Animal dog = new Animal("Dog");
+        Optional<Animal> savedDog = Optional.of(dog);
+        Mockito.when(animalRepository.findById(1L)).thenReturn(savedDog);
+
+        service.deleteAnimalById(1L);
+
+        Mockito.verify(animalRepository, times(1)).deleteById(1L);
     }
 }

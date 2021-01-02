@@ -139,5 +139,31 @@ class HenloControllerTest {
                 .andExpect(redirectedUrl("http://localhost/animals"));
     }
 
+    @Test
+    void shouldAllowDeletingAnAnimal() throws Exception {
+        Animal duck = new Animal("Duck");
+        when(animalService.findAnimalById(3L)).thenReturn(duck);
+
+        mvc.perform(MockMvcRequestBuilders.delete("/animals/3")
+                .characterEncoding("UTF-8")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldSaySorryIfAnimalToBeDeletedDoesntExist() throws Exception {
+        when(animalService.findAnimalById(3L)).thenReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders.put("/animals/3")
+                .content("{ \"name\": \"Pigeon\"}")
+                .characterEncoding("UTF-8")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(equalTo("sorry, dat aminal no exist")))
+                .andExpect(redirectedUrl("http://localhost/animals"));
+    }
+
     // TODO: create custom error mapping cause default one is ugly
 }
