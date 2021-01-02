@@ -2,6 +2,7 @@ package com.petproject.henlofren;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,14 +43,17 @@ public class HenloController {
     }
 
     @GetMapping("/animals/{id}")
-    public String findAnimal(@PathVariable long id) {
+    public ResponseEntity<Object> findAnimal(@PathVariable long id) {
         Animal animal = animalService.findAnimalById(id);
 
         if (animal != null) {
-            return animal.getName();
+            return ResponseEntity.ok().body(animal.getName());
         }
 
-        return "sorry, dat aminal no exist";
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "http://localhost/animals");
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(headers).body("sorry, dat aminal no exist");
     }
 
     @PostMapping("/animals")

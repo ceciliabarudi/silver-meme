@@ -72,8 +72,9 @@ class HenloControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/animals/7")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("sorry, dat aminal no exist")));
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(equalTo("sorry, dat aminal no exist")))
+                .andExpect(redirectedUrl("http://localhost/animals"));
     }
 
     @Test
