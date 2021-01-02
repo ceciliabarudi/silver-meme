@@ -164,6 +164,4 @@ class HenloControllerTest {
                 .andExpect(content().string(equalTo("sorry, dat aminal no exist")))
                 .andExpect(redirectedUrl("http://localhost/animals"));
     }
-
-    // TODO: create custom error mapping cause default one is ugly
 }
