@@ -19,7 +19,8 @@ public class AnimalService {
     }
 
     public Animal findAnimalById(long id) {
-        return animalRepository.findById(id).orElseThrow(() -> new WhoDisAnimalException(id));
+        return animalRepository.findById(id)
+                .orElseThrow(() -> new WhoDisAnimalException("Who dis. No know dat animal " + id));
     }
 
     public Animal save(Animal animal) {
