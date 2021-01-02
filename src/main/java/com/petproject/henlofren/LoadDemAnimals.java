@@ -15,25 +15,25 @@ public class LoadDemAnimals {
 
         return args -> {
             // save a few animals
-            log.info("Preloading " + repository.save(new Animal("Dog")));
-            log.info("Preloading " + repository.save(new Animal("Cat")));
-            log.info("Preloading " + repository.save(new Animal("Platypus")));
-            log.info("Preloading " + repository.save(new Animal("Raccoon")));
-            log.info("Preloading " + repository.save(new Animal("Duck")));
+            log.info("Preloading animals: ");
+            repository.save(new Animal("Dog"));
+            repository.save(new Animal("Cat"));
+            repository.save(new Animal("Platypus"));
+            repository.save(new Animal("Raccoon"));
+            repository.save(new Animal("Duck"));
 
             // fetch all animals
             log.info("Animals found with findAll():");
             log.info("-------------------------------");
             for (Animal animal : repository.findAll()) {
-                log.info(animal.toString());
+                log.info("Animal is: {}", animal);
             }
             log.info("");
 
             // fetch an individual animal by ID
             Animal animal = repository.findById(1L).get();
-            log.info("Animal found with findById(1L):");
             log.info("--------------------------------");
-            log.info(animal.toString());
+            log.info("Animal found with findById(1L): {}", animal);
             log.info("");
         };
     }
