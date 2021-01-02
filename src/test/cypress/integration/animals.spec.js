@@ -19,5 +19,14 @@ context('Pet project', () => {
                     expect(response.headers.location).to.eq('http://localhost/animals')
                 })
         });
+        it('should be able to update animal', function () {
+            cy.visit('/')
+            cy.request('PUT', '/animals/3', {name: 'Pigeon'})
+                .then((response) => {
+                    expect(response.status).to.eq(200)
+                    expect(response.body).to.contain('Pigeon')
+                    expect(response.headers.location).to.eq('http://localhost/animals')
+                })
+        });
     });
 })

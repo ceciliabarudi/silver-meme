@@ -69,11 +69,17 @@ public class HenloController {
 
     @PutMapping("/animals/{id}")
     public ResponseEntity<Object> updateAnimal(@RequestBody Animal animal, @PathVariable long id) {
-        animalService.findAnimalById(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "http://localhost/animals");
 
+        if (animalService.findAnimalById(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(headers).body("sorry, dat aminal no exist");
+        }
+
+        animal.setId(id);
         animalService.save(animal);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().headers(headers).body(animal.getName());
     }
 
     @DeleteMapping("/animals/{id}")

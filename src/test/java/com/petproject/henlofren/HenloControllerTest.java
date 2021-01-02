@@ -106,5 +106,38 @@ class HenloControllerTest {
                 .andExpect(redirectedUrl("http://localhost/animals"));
     }
 
+    @Test
+    void shouldAllowUpdatingAnAnimal() throws Exception {
+        Animal duck = new Animal("Duck");
+        when(animalService.findAnimalById(3L)).thenReturn(duck);
+
+        Animal savedPigeon = new Animal("Pigeon");
+        savedPigeon.setId(3L);
+        when(animalService.save(any())).thenReturn(savedPigeon);
+
+        mvc.perform(MockMvcRequestBuilders.put("/animals/3")
+                .content("{ \"name\": \"Pigeon\"}")
+                .characterEncoding("UTF-8")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsStringIgnoringCase("pigeon")))
+                .andExpect(redirectedUrl("http://localhost/animals"));
+    }
+
+    @Test
+    void shouldSaySorryIfAnimalToBeUpdatedDoesntExist() throws Exception {
+        when(animalService.findAnimalById(3L)).thenReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders.put("/animals/3")
+                .content("{ \"name\": \"Pigeon\"}")
+                .characterEncoding("UTF-8")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(equalTo("sorry, dat aminal no exist")))
+                .andExpect(redirectedUrl("http://localhost/animals"));
+    }
+
     // TODO: create custom error mapping cause default one is ugly
 }
