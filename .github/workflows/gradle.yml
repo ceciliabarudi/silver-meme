@@ -35,14 +35,4 @@ jobs:
         name: Paketito
         path: build/libs
         retention-days: 5
-    - name: Run app in background
-      run: java -jar build/libs/henlofren-0.0.1-SNAPSHOT.jar &
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Run cypress tests
-      uses: cypress-io/github-action@v2
-      with:
-        browser: chrome
-        headless: true
-        wait-on: 'http://localhost:8080'
 
