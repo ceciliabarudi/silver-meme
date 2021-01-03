@@ -35,8 +35,6 @@ jobs:
         name: Paketito
         path: build/libs
         retention-days: 5
-    - name: Run app
-      run: ./gradlew bootRun
     - name: Checkout
       uses: actions/checkout@v1
     - name: Run cypress tests
