@@ -44,4 +44,5 @@ jobs:
       with:
         browser: chrome
         headless: true
+        wait-on: 'http://localhost:8080'
 
